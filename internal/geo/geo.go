@@ -3,7 +3,9 @@ package geo
 import (
 	"math"
 )
-
+/*
+Считает расстояние между двумя точками
+*/
 func ComputeDistance(lat1, lon1, lat2, lon2 float64) float64 {
 	const EarthRadiusKm = 6371
 

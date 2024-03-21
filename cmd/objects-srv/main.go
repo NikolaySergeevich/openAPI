@@ -8,12 +8,15 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	h "openapi/internal/handler"
+	"openapi/internal/memstore"
 	"openapi/pkg/api/objapi"
 )
 
 func main() {
 	router := chi.NewRouter()
-	handler := h.NewHandler()
+	memStore := memstore.New()
+	handler := h.NewHandler(memStore)
+
 	router.Mount(
 		"/api", objapi.HandlerWithOptions(
 			handler, objapi.ChiServerOptions{
