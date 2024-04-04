@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -16,7 +17,6 @@ func main() {
 	router := chi.NewRouter()
 	memStore := memstore.New()
 	handler := h.NewHandler(memStore)
-
 	router.Mount(
 		"/api", objapi.HandlerWithOptions(
 			handler, objapi.ChiServerOptions{
@@ -38,6 +38,7 @@ func main() {
 		MaxHeaderBytes:    10 * 1024 * 1024, // 10mib
 	}
 
+	slog.Info(fmt.Sprintf("http server was started %s", ":8181"))
 	if err := srv.ListenAndServe(); err != nil {
 		slog.Error("http.Server ListenAndServe", slog.String("err", err.Error()))
 	}

@@ -49,7 +49,6 @@ func (h *Handler) PostObjects(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	h.store.Add(
 		memstore.Item{
 			ID:   req.Id,

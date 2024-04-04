@@ -16,19 +16,19 @@ func New() *Store {
 }
 
 type Store struct {
-	mu    *sync.RWMutex
+	mu    sync.Mutex
 	items []Item
 }
 
 func (s *Store) FindAll() []Item {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	items := make([]Item, len(s.items))
 	copy(items, s.items)
 	return items
 }
 
-func (s *Store) Add(item Item) {
+func (s *Store) Add (item Item) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.items = append(
@@ -53,8 +53,8 @@ func (s *Store) DeleteByObjectID(objectID string) {
 }
 
 func (s *Store) FindByObjectID(objectID string) (Item, bool) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	for _, item := range s.items {
 		if item.ID == objectID {
